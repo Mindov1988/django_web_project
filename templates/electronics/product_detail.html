@@ -39,11 +39,6 @@
         {% endif %}
     </div>
 </div>
-
-<!-- Reviews Section -->
-<hr>
-
-
     <!-- Review Form (Visible only for authenticated users) -->
     {% if user.is_authenticated %}
     <hr>
@@ -53,6 +48,12 @@
         {{ review_form.as_p }}
         <button type="submit" class="btn btn-primary">Submit Review</button>
     </form>
+        <hr>
+        <h4>Add in your wishlist</h4>
+        <form method="post" action="{% url 'add_to_wishlist' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Add to Wishlist</button>
+        </form>
     {% else %}
     <p>Please <a href="{% url 'login' %}">log in</a> to leave a review.</p>
     {% endif %}

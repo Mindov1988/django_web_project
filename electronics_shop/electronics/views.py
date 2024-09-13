@@ -7,7 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import Product, Category, Order
 from .forms import RegisterForm, LoginForm, ProductForm, ReviewForm, OrderForm
 import logging
@@ -270,3 +270,99 @@ def update_cart(request, product_id):
         return redirect('cart_view')
     else:
         return redirect('cart_view')
+
+
+def add_to_wishlist(request, product_id):
+    # Get product details
+    product = Product.objects.get(pk=product_id)
+
+    # Retrieve the wishlist from the session
+    wishlist = request.session.get('wishlist', {})
+
+    # If the product is not in the wishlist, add it
+    if str(product_id) not in wishlist:
+        wishlist[str(product_id)] = {
+            'name': product.name,
+            'price': float(product.price),  # Convert Decimal to float
+            'quantity': 1,
+            'image_url': product.image.url
+        }
+    else:
+        wishlist[str(product_id)]['quantity'] += 1
+
+    # Save the wishlist back to the session
+    request.session['wishlist'] = wishlist
+    request.session.modified = True
+
+    return redirect('wishlist_view')
+
+def remove_from_wishlist(request, product_id):
+    wishlist = request.session.get('wishlist', {})
+    product_id_str = str(product_id)
+
+    if product_id_str in wishlist:
+        del wishlist[product_id_str]
+        request.session['wishlist'] = wishlist
+        request.session.modified = True  # Ensure session is saved
+
+    return redirect('wishlist_view')
+
+
+def move_to_cart(request, product_id):
+    wishlist = request.session.get('wishlist', {})
+    cart = request.session.get('cart', {})
+
+    product_id_str = str(product_id)
+    if product_id_str in wishlist:
+        # Move item from wishlist to cart
+        cart[product_id_str] = wishlist[product_id_str]
+        del wishlist[product_id_str]
+
+        # Update the session
+        request.session['cart'] = cart
+        request.session['wishlist'] = wishlist
+        request.session.modified = True
+
+    return redirect('cart_view')
+
+def move_all_to_cart(request):
+    wishlist = request.session.get('wishlist', {})
+    cart = request.session.get('cart', {})
+
+    for product_id, item in wishlist.items():
+        cart[product_id] = {
+            'name': item['name'],
+            'price': float(item['price']),  # Convert to float
+            'quantity': item['quantity'],
+            'image_url': item['image_url']
+        }
+
+    # Clear wishlist after moving to cart
+    request.session['cart'] = cart
+    request.session['wishlist'] = {}
+    request.session.modified = True
+
+    return redirect('cart_view')
+
+def wishlist_view(request):
+    wishlist = request.session.get('wishlist', {})
+
+    wishlist_items = []
+    for product_id, item in wishlist.items():
+        wishlist_items.append({
+            'product_id': product_id,
+            'name': item['name'],
+            'price': item['price'],
+            'quantity': item['quantity'],
+            'image_url': item['image_url'],
+            'total_price': item['price'] * item['quantity']
+        })
+
+    context = {
+        'wishlist_items': wishlist_items,
+    }
+
+    return render(request, 'electronics/wishlist.html', context)
+
+class DeliveryInfoView(TemplateView):
+    template_name = 'electronics/delivery_info.html'
