@@ -7,7 +7,7 @@ from django.conf import settings
 
 from electronics_shop.electronics.views import ProductListView, ProductDetailView, CategoryListView, DashboardView, \
     register, login_view, logout_view, about, contact, add_to_cart, index, CategoryDetailView, cart_view, \
-    dashboard_view, checkout_view, order_detail_view, add_review, remove_from_cart
+    dashboard_view, checkout_view, order_detail_view, add_review, remove_from_cart, update_cart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,7 @@ path('product/<int:product_id>/review/', add_review, name='add_review'),
     path('cart/', cart_view, name='cart_view'),
     path('cart/add/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('cart/remove/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
+    path('cart/update/<int:product_id>/', update_cart, name='cart_update'),
     path('cart/checkout/', checkout_view, name='checkout'),
     path('dashboard/', dashboard_view, name='dashboard'),
     path('order/<int:order_id>/', order_detail_view, name='order_detail'),

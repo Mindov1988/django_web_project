@@ -112,24 +112,8 @@ def add_to_cart(request, product_id):
     return redirect('product_detail', pk=product_id)
 
 def cart_view(request):
+    # Retrieve the cart from the session
     cart = request.session.get('cart', {})
-    item_total_price = 0  # Initialize item_total_price
-
-    if request.method == 'POST':
-        if 'remove' in request.POST:
-            product_id = request.POST.get('product_id')
-            cart.pop(product_id, None)  # Remove the item from the cart
-        elif 'edit' in request.POST:
-            product_id = request.POST.get('product_id')
-            new_quantity = int(request.POST.get('quantity'))
-            if product_id in cart:
-                cart[product_id]['quantity'] = new_quantity
-                if new_quantity <= 0:
-                    cart.pop(product_id)  # Remove the item if quantity is zero or less
-
-        # Update the cart in the session
-        request.session['cart'] = cart
-        return redirect(reverse('cart_view'))  # Redirect to the cart view
 
     # Prepare cart items for display
     cart_items = []
@@ -145,12 +129,10 @@ def cart_view(request):
             'total_price': item['price'] * item['quantity']
         })
         total_price += item['price'] * item['quantity']
-        item_total_price = int(item['quantity']) * item['price']
 
     context = {
         'cart_items': cart_items,
         'total_price': total_price,
-        'item_total_price': item_total_price
     }
 
     return render(request, 'electronics/cart.html', context)
@@ -263,6 +245,23 @@ def remove_from_cart(request, product_id):
 
         if product_id_str in cart:
             del cart[product_id_str]
+            request.session['cart'] = cart
+            request.session.modified = True  # Ensure session is saved
+        else:
+            print(f"Product ID {product_id_str} not found in cart.")
+
+        return redirect('cart_view')
+    else:
+        return redirect('cart_view')
+
+def update_cart(request, product_id):
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))  # Default to 1 if not provided
+        cart = request.session.get('cart', {})
+        product_id_str = str(product_id)
+
+        if product_id_str in cart:
+            cart[product_id_str]['quantity'] = quantity
             request.session['cart'] = cart
             request.session.modified = True  # Ensure session is saved
         else:

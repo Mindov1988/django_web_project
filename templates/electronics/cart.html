@@ -11,16 +11,29 @@
         {% for item in cart_items %}
         <li>
             <img src="{{ item.image_url }}" alt="{{ item.name }}" width="50">
-            <strong>{{ item.name }}</strong> - ${{ item.price }} x {{ item.quantity }} = ${{ item.total_price }}
+            <strong>{{ item.name }}</strong> - ${{ item.price }} x 
+            
+            <!-- Update quantity form -->
+            <form method="post" action="{% url 'cart_update' item.product_id %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px;">
+                <button type="submit" class="btn btn-warning btn-sm">Update</button>
+            </form>
+
             <!-- Remove button form -->
             <form method="post" action="{% url 'remove_from_cart' item.product_id %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
             </form>
+
+            = ${{ item.total_price }}
         </li>
         {% endfor %}
     </ul>
     <h3>Total Price: ${{ total_price }}</h3>
+
+    <!-- Checkout button -->
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
 {% else %}
     <p>Your cart is empty.</p>
 {% endif %}
