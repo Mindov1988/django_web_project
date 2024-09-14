@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Product Image -->
+    <div class="col-md-6">
+        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <h4>${{ product.price }}</h4>
+
+        <!-- Average Rating -->
+        {% if product.reviews.count > 0 %}
+        <p>Number of reviews: {{ product.reviews.count }} Reviews</p>
+        {% else %}
+        <p>No ratings yet.</p>
+        {% endif %}
+
+        <!-- Add to Cart and Checkout Buttons -->
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_cart' product.pk %}" class="d-inline">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+            </div>
+            <button type="submit" class="btn btn-success">Add to Cart</button>
+            <a href="{% url 'checkout' %}" class="btn btn-primary ml-2">Checkout</a>
+        </form>
+        {% else %}
+        <p class="text-danger">Please log in to add items to your cart and proceed to checkout.</p>
+        <a href="{% url 'login' %}" class="btn btn-info mt-2">Log In to Shop</a>
+        {% endif %}
+    </div>
+</div>
+    <!-- Review Form (Visible only for authenticated users) -->
+    {% if user.is_authenticated %}
+    <hr>
+    <h4>Leave a Review</h4>
+    <form method="post" action="{% url 'add_review' product.pk %}">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+        <hr>
+        <h4>Add in your wishlist</h4>
+        <form method="post" action="{% url 'add_to_wishlist' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Add to Wishlist</button>
+        </form>
+    {% else %}
+    <p>Please <a href="{% url 'login' %}">log in</a> to leave a review.</p>
+    {% endif %}
+    
+{% endblock %}

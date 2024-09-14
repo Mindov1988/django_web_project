@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Balloon with Deadpool Character</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .character {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 300px;
+        }
+
+        .character img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .speech-bubble {
+            position: relative;
+            background: #f0f0f0;
+            border-radius: .4em;
+            padding: 10px;
+            width: 250px;
+            height: auto;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: #f0f0f0;
+            border-left: 0;
+            margin-top: -10px;
+        }
+
+        .speech-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .speech-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="speech-container">
+            <!-- Character Image -->
+            <div class="character">
+                <img src="{% static 'images/oops.jpeg' %}" alt="Deadpool-style character">
+            </div>
+
+            <!-- Speech Bubble -->
+            <div class="speech-bubble ml-3">
+                <p class="speech-text">"Oops! Page not found. Go to <a href="{% url 'index' %}">Home</a>"</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

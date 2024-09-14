@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-p@66i1hjjp*9$u7ha0!d#ydm4n)@)hn2t^s%f&vwb)^_7*&)b@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+]
 
 
 # Application definition
@@ -43,7 +45,16 @@ INSTALLED_APPS = [
     #THIRD PARTY APPS
 
     #PROJECT APPS
-    'electronics_shop.electronics'
+    'electronics_shop.electronics',
+    'electronics_shop.accounts',
+    'electronics_shop.common',
+    'electronics_shop.categories',
+    'electronics_shop.products.apps.ProductsConfig',
+    'electronics_shop.orders',
+    'electronics_shop.cart',
+    'electronics_shop.wishlist',
+    'electronics_shop.checkout',
+    'electronics_shop.dashboard',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +72,7 @@ ROOT_URLCONF = 'electronics_shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'electronics/../templates']
+        'DIRS': [BASE_DIR / 'templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -126,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
         BASE_DIR / 'staticfiles'
 ]
