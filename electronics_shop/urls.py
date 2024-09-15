@@ -14,7 +14,7 @@ urlpatterns = [
     path('checkout/', include('electronics_shop.checkout.urls')),
     path('order/', include('electronics_shop.orders.urls')),
     path('dashboard/', include('electronics_shop.dashboard.urls')),
-    path('accounts', include('electronics_shop.accounts.urls')),
+    path('accounts/', include('electronics_shop.accounts.urls')),
     path('about/', AboutInfoView.as_view(), name='about'),
     path('contact/', ContactInfoView.as_view(), name='contact'),
     path('delivery/', DeliveryInfoView.as_view(), name='delivery_info'),

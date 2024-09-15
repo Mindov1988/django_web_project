@@ -4,6 +4,13 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<div class="container content">
+        <!-- Welcome Message -->
+        {% if user.is_authenticated %}
+        <div class="alert alert-info mt-2">
+            Welcome, {{ user.username }}!
+        </div>
+        {% endif %}
 <div class="jumbotron jumbotron-fluid text-white text-center" 
      style="background: rgba(0, 0, 0, 0.5) url('{% static "images/circuit.jpeg" %}') no-repeat center center; background-size: cover; height: 100%;">
     <div class="container">
@@ -31,3 +38,4 @@
     </div>
 </div>
 {% endblock %}
+</div>

@@ -102,13 +102,6 @@
         </header>
 
         <div class="container content">
-            <!-- Welcome Message -->
-            {% if user.is_authenticated %}
-            <div class="alert alert-info mt-2">
-                Welcome, {{ user.username }}!
-            </div>
-            {% endif %}
-
             <!-- Page Content -->
             {% block content %}
             {% endblock %}
