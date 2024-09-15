@@ -8,6 +8,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    'mindov1988.pythonanywhere.com',
 ]
 
 
