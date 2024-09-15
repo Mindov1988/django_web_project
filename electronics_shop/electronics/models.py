@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -24,6 +23,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Order(models.Model):
     MAX_TOTAL_PRICE_DIGITS = 10
