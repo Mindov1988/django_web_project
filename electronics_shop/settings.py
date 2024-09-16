@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-p@66i1hjjp*9$u7ha0!d#ydm4n)@)hn2t^s%f&vwb)^_7*&)b@'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -46,6 +46,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'electronics_shop.middleware.force_404_middleware.Force404Middleware',
 ]
 
 ROOT_URLCONF = 'electronics_shop.urls'
@@ -103,13 +105,15 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'staticfiles'),
     ]
 
 MEDIA_URL = '/mediafiles/'
-MEDIA_ROOT = BASE_DIR / 'mediafiles'
+MEDIA_ROOT = [
+    os.path.join(BASE_DIR, 'mediafiles'),
+    ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
