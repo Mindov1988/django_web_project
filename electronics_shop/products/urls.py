@@ -1,4 +1,6 @@
 from django.urls import path
+
+from electronics_shop import checkout
 from electronics_shop.products.views import ProductDetailView, add_review
 
 
