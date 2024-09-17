@@ -1,66 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Register</h2>
+{% extends 'base.html' %}
 
-        <!-- Display error messages at the top -->
-        {% if form.errors %}
-            <div class="alert alert-danger" role="alert">
-                <strong>There were errors in your form:</strong>
-                <ul>
-                    {% for field in form %}
-                        {% if field.errors %}
-                            <li>{{ field.label }}: {{ field.errors|striptags }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <!-- Registration Form -->
-        <form method="POST" action="{% url 'register' %}">
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-80 pt-4"> <!-- Added pt-4 -->
+    <div class="container" style="
+        background-color: #f8f9fa; /* Container background color */
+        color: black;
+        padding: 1rem;
+        width: 90%; /* Adjust width as needed */
+        max-width: 400px; /* Reduced max-width to make the container smaller */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    ">
+        <h2 class="mb-4 text-center">Register</h2>
+        <form method="post">
             {% csrf_token %}
-            
-            <!-- Username Field -->
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" value="{{ form.username.value|default_if_none:'' }}">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                <input type="text" name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}" class="form-control" placeholder="Enter your username">
             </div>
-
-            <!-- Email Field -->
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" value="{{ form.email.value|default_if_none:'' }}">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                <input type="email" name="email" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}" class="form-control" placeholder="Enter your email">
             </div>
-
-            <!-- Password Field -->
             <div class="form-group">
-                <label for="password1">Password</label>
-                <input type="password" name="password1" class="form-control">
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                <input type="password" name="password1" id="{{ form.password1.id_for_label }}" value="{{ form.password1.value|default_if_none:'' }}" class="form-control" placeholder="Enter your password">
             </div>
-
-            <!-- Confirm Password Field -->
             <div class="form-group">
-                <label for="password2">Confirm Password</label>
-                <input type="password" name="password2" class="form-control">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                <input type="password" name="password2" id="{{ form.password2.id_for_label }}" value="{{ form.password2.value|default_if_none:'' }}" class="form-control" placeholder="Confirm your password">
             </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
         </form>
     </div>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}

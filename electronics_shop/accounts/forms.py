@@ -7,7 +7,19 @@ from electronics_shop.accounts.models import Profile
 UserModel = get_user_model()
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Email'})
+    )
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password'})
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'})
+    )
 
     class Meta:
         model = UserModel
