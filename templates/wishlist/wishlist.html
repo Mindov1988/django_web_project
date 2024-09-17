@@ -3,41 +3,47 @@
 {% block title %}My Wishlist{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center;">Wishlist</h2>
+<div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <div class="container">
+        <h2 class="text-center mb-4">Wishlist</h2>
 
-<!-- Display wishlist items -->
-<div style="text-align: center;">
-    {% if wishlist_items %}
-        <ul>
-            {% for item in wishlist_items %}
-            <li>
-                <img src="{{ item.image_url }}" alt="{{ item.name }}" width="50">
-                <strong>{{ item.name }}</strong> - ${{ item.price }} x {{ item.quantity }}
-                = ${{ item.total_price }}
+        <!-- Display wishlist items -->
+        <div class="text-center">
+            {% if wishlist_items %}
+                <div class="d-flex flex-column align-items-center">
+                    <ul class="list-unstyled mb-4">
+                        {% for item in wishlist_items %}
+                        <li class="d-flex align-items-center mb-3">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" width="50" class="mr-3">
+                            <div class="flex-grow-1 text-left">
+                                <strong>{{ item.name }}</strong> - ${{ item.price }} x {{ item.quantity }}
+                                = ${{ item.total_price }}
+                                
+                                <!-- Move to cart button -->
+                                <form method="post" action="{% url 'move_to_cart' item.product_id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Move to Cart</button>
+                                </form>
                 
-                <!-- Move to cart button -->
-                <form method="post" action="{% url 'move_to_cart' item.product_id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success btn-sm">Move to Cart</button>
-                </form>
-    
-                <!-- Remove from wishlist button -->
-                <form method="post" action="{% url 'remove_from_wishlist' item.product_id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-    
-        <!-- Move All to Cart button -->
-        <form method="post" action="{% url 'move_all_to_cart' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary mt-3">Move All to Cart</button>
-        </form>
-    
-    {% else %}
-        <p style="text-align: center;">Your wishlist is empty.</p>
-    {% endif %}
+                                <!-- Remove from wishlist button -->
+                                <form method="post" action="{% url 'remove_from_wishlist' item.product_id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <!-- Move All to Cart button -->
+                    <form method="post" action="{% url 'move_all_to_cart' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary mt-3">Move All to Cart</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>Your wishlist is empty.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
