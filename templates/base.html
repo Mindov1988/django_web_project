@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.jpeg' %}">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         html, body {
             width: 100%;
             height: 100%;
@@ -24,44 +26,55 @@
             color: white;
             overflow-x: hidden;
         }
+
         img {
-        max-width: 100%;
-        height: auto; /* Maintain aspect ratio */
-        max-height: 230px; /* Adjust height as needed */
-        object-fit: cover; /* Ensure images cover the specified dimensions */
-    }
+            max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            max-height: 230px; /* Adjust height as needed */
+            object-fit: cover; /* Ensure images cover the specified dimensions */
+        }
+
         li {
             list-style: none;
         }
+
         .wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
+
         .content {
             flex: 1;
         }
+
         .footer {
             background-color: #f8f9fa;
             padding: 20px 0;
         }
-        .col-md-4{
+
+        .col-md-4 {
             color: black;
         }
-        .card-body{
+
+        .card-body {
             color: black;
         }
-        .table{
+
+        .table {
             color: white;
         }
-        .text-uppercase{
+
+        .text-uppercase {
             color: black;
         }
+
         .inner-content {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .jumbotron {
             background: rgba(0, 0, 0, 0.5) url('{% static "images/circuit.jpeg" %}') no-repeat center center;
             background-size: cover;
@@ -71,10 +84,12 @@
             padding: 2.5rem 0; /* Adjust as needed */
             position: relative;
         }
+
         .jumbotron .container {
             position: relative;
             z-index: 1; /* Ensure content is on top */
         }
+
         .container.content {
             position: relative;
             z-index: 1;
@@ -82,36 +97,38 @@
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <!-- Header with Navbar -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="{% url 'index' %}">
-                    <img src="{% static 'images/logo.jpeg' %}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
-                    My Shop
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">
-                                <i class="bi bi-house"></i> Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'category_list' %}">
-                                <i class="bi bi-list"></i> Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'about' %}">
-                                <i class="bi bi-info-circle"></i> About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact' %}">
-                                <i class="bi bi-envelope"></i> Contacts</a>
-                        </li>
-                        {% if user.is_authenticated %}
+<div class="wrapper">
+    <!-- Header with Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'images/logo.jpeg' %}" alt="Logo" width="30" height="30"
+                     class="d-inline-block align-top">
+                My Shop
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">
+                            <i class="bi bi-house"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category_list' %}">
+                            <i class="bi bi-list"></i> Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="bi bi-info-circle"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="bi bi-envelope"></i> Contacts</a>
+                    </li>
+                    {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'wishlist_view' %}">
                                 <i class="bi bi-heart"></i> Wishlist</a>
@@ -121,7 +138,7 @@
                                 <i class="bi bi-cart"></i> Cart
                             </a>
                         </li>
-                            <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'delivery_info' %}">
                                 <i class="bi bi-truck"></i> Delivery
                             </a>
@@ -134,7 +151,7 @@
                             <a class="nav-link" href="{% url 'logout' %}">
                                 <i class="bi bi-box-arrow-right"></i> Logout</a>
                         </li>
-                        {% else %}
+                    {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">
                                 <i class="bi bi-box-arrow-in-right"></i> Login</a>
@@ -143,34 +160,34 @@
                             <a class="nav-link" href="{% url 'register' %}">
                                 <i class="bi bi-person-plus"></i> Register</a>
                         </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </nav>
-        </header>
-
-        <!-- Content Area -->
-        <div class="content">
-            {% block content %}
-            {% endblock %}
-        </div>
-
-        <!-- Footer Section -->
-        <footer class="footer bg-light text-center text-lg-start">
-            <div class="bg-dark text-white">
-                <div class="container p-2">
-                    <div class="text-center">
-                        © 2024 Copyright. All rights reserved: 
-                        <a class="text-white" href="{% url 'index' %}">mindov1988.pythonanywhere.com</a>
-                    </div>
-                </div>
+                    {% endif %}
+                </ul>
             </div>
-        </footer>
+        </nav>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Footer Section -->
+    <footer class="footer bg-light text-center text-lg-start">
+        <div class="bg-dark text-white">
+            <div class="container p-2">
+                <div class="text-center">
+                    © 2024 Copyright. All rights reserved:
+                    <a class="text-white" href="{% url 'index' %}">mindov1988.pythonanywhere.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

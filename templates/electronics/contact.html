@@ -1,15 +1,49 @@
 {% extends 'base.html' %}
 
-{% block title %}Contact Us{% endblock %}
-
 {% block content %}
-<div class="inner-content">
-    <h2>Contact Us</h2>
-    <p>If you have any questions, feel free to reach out to us at:</p>
-    <ul>
-        <li>Email: support@electronicsshop.com</li>
-        <li>Phone: +1-800-123-4567</li>
-        <li>Address: 123 Electronics Ave, Tech City</li>
-    </ul>
-</div>
+    <div class="inner-content">
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feel free to reach out to us at:</p>
+        <ul>
+            <li>Email: support@electronicsshop.com</li>
+            <li>Phone: +1-800-123-4567</li>
+            <li>Address: 123 Electronics Ave, Tech City</li>
+        </ul>
+        <h3>For more information, please fill out the form below:</h3>
+        <form id="contactForm" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        form.reset();
+                    } else {
+                        alert("There was an error. Please check the form and try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An unexpected error occurred.");
+                });
+        });
+    </script>
 {% endblock %}
