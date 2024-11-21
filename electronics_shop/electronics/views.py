@@ -25,3 +25,11 @@ class ContactInfoView(FormView):
 
     def form_invalid(self, form):
         return JsonResponse({"success": False, "errors": form.errors}, status=400)
+
+
+def accept_cookies(request):
+    if request.method == 'POST':
+        response = JsonResponse({'message': 'Cookie accepted'})
+        response.set_cookie('cookie_accepted', 'false', max_age=365*24*60*60)
+        return response
+    return JsonResponse({'error': 'Invalid request'}, status=400)

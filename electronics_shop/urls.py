@@ -1,15 +1,17 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.shortcuts import render
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
-from electronics_shop.electronics.views import DeliveryInfoView, AboutInfoView, ContactInfoView
+from electronics_shop.electronics.views import DeliveryInfoView, AboutInfoView, ContactInfoView, accept_cookies
+
 
 def custom_404_view(request, exception=None):
     # Force the custom 404 page to be displayed even when DEBUG is True
     if settings.DEBUG:
         return render(request, '404.html', status=404)
     return render(request, '404.html', status=404)
+
 
 handler404 = 'electronics_shop.urls.custom_404_view'
 
@@ -27,10 +29,9 @@ urlpatterns = [
     path('about/', AboutInfoView.as_view(), name='about'),
     path('contact/', ContactInfoView.as_view(), name='contact'),
     path('delivery/', DeliveryInfoView.as_view(), name='delivery_info'),
+    path('accept-cookies/', accept_cookies, name='accept_cookies'),
 
 ]
-
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

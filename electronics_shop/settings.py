@@ -13,9 +13,8 @@ ALLOWED_HOSTS = [
     'mindov1988.pythonanywhere.com',
 ]
 
-
 INSTALLED_APPS = [
-    #DJANGO APPS
+    # DJANGO APPS
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -23,10 +22,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # THIRD PARTY APPS
 
-    #THIRD PARTY APPS
-
-    #PROJECT APPS
+    # PROJECT APPS
     'electronics_shop.electronics',
     'electronics_shop.accounts',
     'electronics_shop.common',
@@ -49,6 +47,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'electronics_shop.middleware.force_404_middleware.Force404Middleware',
+    'electronics_shop.middleware.cookie_consent.CookieConsentMiddleware',
+
 ]
 
 ROOT_URLCONF = 'electronics_shop.urls'
@@ -94,7 +94,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LOGIN_REDIRECT_URL = 'index'
 
 LANGUAGE_CODE = 'en-us'
@@ -109,7 +108,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'staticfiles'
-    ]
+]
 
 MEDIA_URL = '/mediafiles/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
@@ -117,3 +116,11 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    'localhost',
+    '127.0.0.1',
+    'mindov1988.pythonanywhere.com',
+]
