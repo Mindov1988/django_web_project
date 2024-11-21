@@ -33,3 +33,16 @@ def accept_cookies(request):
         response.set_cookie('cookie_accepted', 'false', max_age=365*24*60*60)
         return response
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def decline_cookies(request):
+    if request.method == "POST":
+        response = JsonResponse({'message': 'Cookies declined'})
+        response.set_cookie('cookies_accepted', 'false', max_age=365*24*60*60)
+        return response
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+
+class PrivacyInfoView(TemplateView):
+    template_name = 'electronics/privacy.html'
