@@ -1,7 +1,8 @@
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views import generic as views
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from electronics_shop.accounts.forms import RegisterForm, EditProfileForm, LoginForm
@@ -28,8 +29,8 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data['username'].lower()
+            password = form.cleaned_data['password'].lower()
 
             user = authenticate(request, username=username, password=password)
 
@@ -76,10 +77,15 @@ class EditProfileView(views.UpdateView):
         return self.request.user.profile
 
 
-class DeleteProfileView(views.DeleteView):
-    queryset = Profile.objects.all()
-    template_name = 'accounts/delete_profile.html'
-    success_url = reverse_lazy('index')
+@login_required
+def delete_profile_view(request):
+    profile = get_object_or_404(Profile, user=request.user)
 
-    def get_object(self, queryset=None):
-        return get_account()
+    if request.method == 'POST':
+        user = profile.user
+        profile.delete()
+        user.delete()
+        messages.success(request, "Your profile has been successfully deleted.")
+        return redirect('index')
+
+    return render(request, 'accounts/delete_profile.html', {'profile': profile})

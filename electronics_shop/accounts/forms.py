@@ -27,11 +27,15 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
-        user = super().save(commit=commit)
+        user = super().save(commit=False)
+        user.username = user.username.lower()
+        user.email = user.email.lower()
 
         if commit:
+            user.save()
             Profile.objects.create(user=user)
         return user
+
 
 
 class LoginForm(forms.Form):
