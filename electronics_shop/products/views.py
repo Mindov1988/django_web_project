@@ -2,13 +2,17 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.db.models import Avg
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+
 from electronics_shop.electronics.models import Product
-from electronics_shop.products.forms import ReviewForm
+from electronics_shop.products.forms import ReviewForm, ProductForm
 
 
 class ProductListView(ListView):
     model = Product
     template_name = 'products/product_list.html'
+
 
 class ProductDetailView(DetailView):
     model = Product
@@ -33,6 +37,19 @@ def product_detail(request, pk):
         'review_form': review_form,
         'average_rating': average_rating,
     })
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'products/product_edit.html'
+    success_url = reverse_lazy('category_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 
 @login_required
 def add_review(request, product_id):

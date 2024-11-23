@@ -17,7 +17,7 @@
 <div class="container mt-5">
     {% if user.is_authenticated %}
     <div class="alert alert-info mt-2">
-        Welcome, {{ user.username }}!
+        Welcome, {{ user.username }} ({{ user.is_staff|yesno:"Administrator,User" }})!
     </div>
     {% endif %}
 
