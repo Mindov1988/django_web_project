@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+        <div class="container" style="
+        background-color: #f8f9fa;
+        color: black;
+        padding: 1rem;
+        width: 90%;
+        max-width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    ">
+            <h2 class="mb-4 text-center">Edit Profile</h2>
+            <form method="post" action="{% url 'edit profile' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger mt-1">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger mt-3">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

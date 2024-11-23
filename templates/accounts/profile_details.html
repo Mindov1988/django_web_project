@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Details{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 50vh; padding: 1rem;">
+        <div class="container" style="
+        background-color: #f8f9fa; 
+        color: black;
+        padding: 1rem;
+        width: 90%;
+        max-width: 600px; 
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    ">
+            <h2 class="mb-3 text-center">Profile Details</h2>
+            <div class="text-center mb-3">
+                {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image }}" alt="Profile Image" class="img-thumbnail"
+                         style="max-width: 120px; max-height: 120px;">
+                {% else %}
+                    <img src="https://via.placeholder.com/120" alt="No Profile Image" class="img-thumbnail"
+                         style="max-width: 120px; max-height: 120px;">
+                {% endif %}
+            </div>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
+                <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
+                <li class="list-group-item"><strong>Status:</strong> {{ user.is_active|yesno:"Active,Inactive" }}</li>
+                <li class="list-group-item"><strong>Staff:</strong> {{ user.is_staff|yesno:"Yes,No" }}</li>
+            </ul>
+            <div class="text-center">
+                <a href="{% url 'edit profile' %}" class="btn btn-primary mx-2">Edit</a>
+                <a href="{% url 'delete profile' %}" class="btn btn-danger mx-2">Delete</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

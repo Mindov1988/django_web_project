@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 70vh;"> <!-- Added pt-4 -->
+<div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
     <div class="container" style="
         background-color: #f8f9fa; /* Container background color */
         color: black;
@@ -14,22 +14,22 @@
         <h2 class="mb-4 text-center">Register</h2>
         <form method="post">
             {% csrf_token %}
+            {% for field in form %}
             <div class="form-group">
-                <label for="{{ form.username.id_for_label }}">Username</label>
-                <input type="text" name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}" class="form-control" placeholder="Enter your username">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-danger mt-1">
+                    {{ field.errors|striptags }}
+                </div>
+                {% endif %}
             </div>
-            <div class="form-group">
-                <label for="{{ form.email.id_for_label }}">Email</label>
-                <input type="email" name="email" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}" class="form-control" placeholder="Enter your email">
+            {% endfor %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+                {{ form.non_field_errors }}
             </div>
-            <div class="form-group">
-                <label for="{{ form.password1.id_for_label }}">Password</label>
-                <input type="password" name="password1" id="{{ form.password1.id_for_label }}" value="{{ form.password1.value|default_if_none:'' }}" class="form-control" placeholder="Enter your password">
-            </div>
-            <div class="form-group">
-                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
-                <input type="password" name="password2" id="{{ form.password2.id_for_label }}" value="{{ form.password2.value|default_if_none:'' }}" class="form-control" placeholder="Confirm your password">
-            </div>
+            {% endif %}
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>

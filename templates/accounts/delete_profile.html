@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Profile{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+        <div class="container" style="
+        background-color: #f8f9fa;
+        color: black;
+        padding: 1rem;
+        width: 90%;
+        max-width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+    ">
+            <h2 class="mb-4 text-danger">Delete Profile</h2>
+            <p>Are you sure you want to delete your profile?</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a href="{% url 'details profile' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
