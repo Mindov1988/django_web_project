@@ -72,12 +72,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'electronics_shop.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'mindov1988$django_project',
+            'USER': 'mindov1988',
+            'PASSWORD': 'django@project',
+            'HOST': 'mindov1988.mysql.pythonanywhere-services.com',
+        }
+    }
 
 AUTH_USER_MODEL = 'auth.User'
 
