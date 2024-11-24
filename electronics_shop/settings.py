@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-p@66i1hjjp*9$u7ha0!d#ydm4n)@)hn2t^s%f&vwb)^_7*&)b@'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -72,23 +72,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'electronics_shop.wsgi.application'
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'mindov1988$django_project',
-            'USER': 'mindov1988',
-            'PASSWORD': 'django@project',
-            'HOST': 'mindov1988.mysql.pythonanywhere-services.com',
-        }
-    }
+}
 
 AUTH_USER_MODEL = 'auth.User'
 
