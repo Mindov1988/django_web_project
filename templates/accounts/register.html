@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
-    <div class="container" style="
+    <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+        <div class="container" style="
         background-color: #f8f9fa; /* Container background color */
         color: black;
         padding: 1rem;
@@ -11,29 +11,30 @@
         border: 1px solid #ccc;
         border-radius: 8px;
     ">
-        <h2 class="mb-4 text-center">Register</h2>
-        <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                <div class="text-danger mt-1">
-                    {{ field.errors|striptags }}
-                </div>
+            <h2 class="mb-4 text-center">Register</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger mt-1">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger mt-3">
+                        {{ form.non_field_errors }}
+                    </div>
                 {% endif %}
-            </div>
-            {% endfor %}
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger mt-3">
-                {{ form.non_field_errors }}
-            </div>
-            {% endif %}
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-        </form>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+                <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
