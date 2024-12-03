@@ -126,3 +126,7 @@ CORS_ORIGIN_WHITELIST = [
     '127.0.0.1',
     'mindov1988.pythonanywhere.com',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

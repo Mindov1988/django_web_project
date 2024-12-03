@@ -4,10 +4,27 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.core.mail import send_mail
+from asgiref.sync import async_to_sync
+import asyncio
 
 from electronics_shop.accounts.forms import RegisterForm, EditProfileForm, LoginForm
 from electronics_shop.accounts.models import Profile
 from electronics_shop.core.utils import get_account
+
+
+async def send_registration_email(user_email):
+    subject = "Welcome to our platform!"
+    message = (
+        "Thank you for registering on our platform. "
+        "We are excited to have you on board!"
+    )
+    from_email = "no-reply@electronicsshop.com"
+    recipient_list = [user_email]
+
+    await asyncio.to_thread(
+        send_mail, subject, message, from_email, recipient_list
+    )
 
 
 def register(request):
@@ -16,6 +33,8 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            async_to_sync(send_registration_email)(user.email)
+            messages.success(request, "Registration successful! Check your email.")
             return redirect('index')
         else:
             messages.error(request, "Please correct the errors in the form.")
